@@ -8,15 +8,15 @@ const mostrarProductos = () => {
         div.innerHTML =`
                     <div class="card product-wap rounded-0">    
                         <div class="card rounded-0">
-                            <img class="card-img rounded-0 img-fluid" src=${producto.img}>                                                                        
+                            <img class="card-img rounded-0 img-fluid" src="${producto.img}">                                                                        
                             <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">                                       
-                                <button class="btn-agregar btn-success text-white mt-2" id=${producto.id}><i class="fas fa-cart-plus"></i>Agregar</button>
+                                <button id="${producto.id}" class="btn-agregar btn-success text-white mt-2"><i class="fas fa-cart-plus"></i>Agregar</button>
                             </div>    
                         </div>
                         <div class="card-body">
                         <p>${producto.nombre}<p>
                         <p>${producto.desc}</p>
-                            <p class="text-center mb-0">$${producto.precio}</p>
+                        <p class="text-center mb-0">$${producto.precio}</p>
                         </div>
                     </div>
         `;
