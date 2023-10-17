@@ -1,2 +1,4 @@
-document.addEventListener("DOMContentLoaded", mostrarProductos(productos));
-document.addEventListener("DOMContentLoaded", botonesAgregar());
+document.addEventListener("DOMContentLoaded", () => {
+    mostrarProductos(productos);
+    botonesAgregar();
+});

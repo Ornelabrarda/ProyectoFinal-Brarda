@@ -7,35 +7,38 @@ const carritoVacio = document.querySelector("#carrito-vacio");
 const carritoProducto = document.querySelector("#carrito-producto");
 const carritoAcciones = document.querySelector("#carrito-acciones");
 let botonEliminar = document.querySelectorAll(".carrito-producto-eliminar");
-const total = document.querySelector(".carrito-total");
-const botonComprar = document.querySelector(".carrito-comprar")
+const total = document.querySelector("#total");
+const botonComprar = document.querySelector(".carrito-comprar");
 
 let carritoLS = localStorage.getItem("productos-en-carrito");
 
-function botonesAgregar() {
+const botonesAgregar = () => {
     botonAgregar = document.querySelectorAll(".btn-agregar");
     botonAgregar.forEach(boton => {
-        boton.addEventListener("click", agregarAlCarrito);    
+        boton.addEventListener("click", () => agregarAlCarrito(boton));    
     });
 };
 
 //funcion agregar productos al carrito
-const agregarAlCarrito = (e) => {  
-    const idBoton = e.currentTarget.id;
+const agregarAlCarrito = (boton) => {  
+    const idBoton = boton.id;
     const productoAgregado = productos.find(producto => producto.id == idBoton);
     
     if (productoAgregado){
-        const productoEnCarrito = carrito.find(producto  => producto.id == idBoton);
+        const productoEnCarrito = carrito.find(producto  => producto.productoAgregado.id === productoAgregado.id);
         
         if(productoEnCarrito) {
             productoEnCarrito.cantidad++;
         } else {
         carrito.push({productoAgregado, cantidad: 1}); 
         }; 
+    
+        actualizarContadorCarrito();
+        cargarProductoCarrito();
+        
     };
 
-    actualizarContadorCarrito();
-
+    
     localStorage.setItem("productos-en-carrito", JSON.stringify(carrito));
 };
 
@@ -46,7 +49,7 @@ const actualizarContadorCarrito = () => {
 };
 
 //Funcion para mostrar detalle compra en carrito
-function cargarProductoCarrito() {
+const cargarProductoCarrito = () => {
     if(carrito && carrito.length > 0) {
         carritoVacio.classList.add("disabled");
         carritoProducto.classList.remove("disabled");
@@ -59,67 +62,94 @@ function cargarProductoCarrito() {
             div.classList.add("carrito-producto");
         
             div.innerHTML = `
-                <img class="carrito-producto-imagen" src=${producto.img}>
-                <div class="producto-nombre">
-                    <small>Nombre</small>
-                        <p>${producto.nombre}</p>
-                </div>
-                <div class="carrito-producto-cantidad">
-                    <small>Cantidad</small>
+                <div class="producto-detalles">
+                    <div class="imagen"> 
+                        <img class="carrito-producto-imagen" src="${producto.productoAgregado.img}">
+                    </div>
+                    <div class="producto-nombre">
+                        <small>Nombre</small>
+                        <p>${producto.productoAgregado.nombre}</p>
+                    </div>
+                    <div class="carrito-producto-cantidad">
+                        <small>Cantidad</small>
                         <p>${producto.cantidad}</p>
+                    </div>
+                    <div class="carito-producto-precio">
+                        <small>Precio</small>
+                        <p>$${producto.productoAgregado.precio}</p>
+                    </div>
+                    <div class="carito-producto-subtotal">
+                    <small>Subtotal</small>
+                        <p>$${producto.productoAgregado.precio * producto.cantidad}</p>
+                    </div>
+                    <button class="carrito-producto-eliminar" data-producto-id="${producto.productoAgregado.id}"><i class="bi bi-trash-fill"></i></button>
                 </div>
-                <div class="carito-producto-precio">
-                    <small>Precio</small>
-                        <p>${producto.precio}</p>
-                </div>
-                <button class="carrito-producto-eliminar" id=${producto.id}><i class="bi bi-trash-fill"></i></button>
             `;
             carritoProducto.append(div);
-        }) 
+        });
+
+        actualizarEventosEliminar(); 
        
     }else {
         carritoVacio.classList.remove("disabled");
         carritoProducto.classList.add("disabled");
         carritoAcciones.classList.add("disabled");
     };
-    actualizarBotonesEliminar();
+
     actualizarTotal();
 };
 
-
-function actualizarBotonesEliminar() {
-    botonEliminar = document.querySelectorAll(".carrito-producto-eliminar");
-    botonEliminar.forEach(boton => {
-        boton.addEventListener("click", eliminarDelCarrito);    
+const actualizarEventosEliminar = () => {
+   
+    const botonesEliminarModal = document.querySelectorAll(".carrito-producto-eliminar");
+    botonesEliminarModal.forEach(boton => {
+        boton.addEventListener("click",(e) => {
+            const idProducto = e.target.getAttribute("data-producto-id");
+            eliminarDelCarritoYModal(idProducto);
+        });    
     });
 };
 
 //Funcion para eliminar productos
-function eliminarDelCarrito() {
-    const idBoton =e.currentTarget.id
-    const index = carrito.findIndex(producto => producto.id === idBoton)
-    carrito.splice(index, 1);
-    cargarProductoCarrito();
-    actualizarTotal();
-    actualizarContadorCarrito();
+function eliminarDelCarritoYModal(idProducto) {
+    const index = carrito.findIndex(producto => producto.productoAgregado.id === idProducto);
+    
+    if(index !== -1) {
+        carrito.splice(index, 1);
+        cargarProductoCarrito();
+        actualizarTotal();
+        actualizarContadorCarrito();    
+    };
 
-    localStorage.setItem("productos-en-carrito", JSON.stringify(carrito));
+    const modalProducto = document.querySelector(`.modal-producto[data-producto-id="${idProducto}"]`);
+    if (modalProducto) {
+         modalProducto.remove();
+    }
+ 
+    localStorage.setItem("productos-en-carrito", JSON.stringify(carrito)); 
 };
 
-function actualizarTotal () {
-    const totalCalculado = carrito.reduce((acc, producto) => acc + (producto.precio * producto.cantidad), 0);
-    total.inneText = `${totalCalculado}`;
+const actualizarTotal = () => {
+    const totalCalculado = carrito.reduce((acc, producto) => acc + (producto.productoAgregado.precio * producto.cantidad), 0);
+    total.innerText = `$${totalCalculado}`;
+};
+
+const comprarCarrito = () => {
+    if(carrito.length > 0) {
+        carrito.length = 0;
+        carritoProducto.innerHTML =  "";
+    
+        localStorage.setItem("productos-en-carrito", JSON.stringify(carrito));
+
+        actualizarContadorCarrito();
+        actualizarTotal();
+    };
+};
+
+if (carritoLS) {
+    carrito = JSON.parse(carritoLS);
+    actualizarContadorCarrito();  
+    cargarProductoCarrito();
 };
 
 botonComprar.addEventListener("click", comprarCarrito);
-function comprarCarrito() {
-    carrito.length = 0;
-    localStorage.setItem("producto-en-carrito", JSON.stringify(carrito));
-
-    carritoVacio.classList.add("disabled");
-    carritoProducto.classList.add("disabled");
-    carritoAcciones.classList.add("disabled");
-
-    actualizarContadorCarrito();
-};
-

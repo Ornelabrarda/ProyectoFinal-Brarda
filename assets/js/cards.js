@@ -1,9 +1,9 @@
 const mostrarProductos = () => {
-    const contenedor = document.getElementById("producto-contenedor");
+    const contenedor = document.querySelector("#producto-contenedor");
 
     productos.forEach(producto => {
         const div = document.createElement("div");
-        div.className ="col-md-4 mb-3";
+        div.classList ="col-md-4 mb-3";
 
         div.innerHTML =`
                     <div class="card product-wap rounded-0">    

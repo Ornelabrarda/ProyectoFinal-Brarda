@@ -10,6 +10,6 @@ cerrarCarrito.addEventListener('click', () => {
     modalContenedor.classList.toggle('modal-active')
 });
 
-modalContenedor.addEventListener('click', () => {
-    cerrarCarrito.click()
-});
+// modalContenedor.addEventListener('click', () => {
+//     cerrarCarrito.click()
+// });
