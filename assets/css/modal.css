@@ -1,4 +1,6 @@
+/*Estilos modal*/
 
+/* Contenedores */
 .cesta-carrito {
     position: fixed;
     top: 30px;
@@ -50,11 +52,6 @@
     padding-bottom: 5px;
 }
 
-#carrito-vacio{
-    color: #0bff7e;
-    display: none;
-}
-
 .producto-nombre p{
     color: #0bff7e;
     font-size: 25px;
@@ -69,7 +66,7 @@
     font-size: 15px;
 }
 
-.carrito-producto-eliminar {
+.boton-eliminar {
     border: 0;
     background-color: transparent;
     color: red;

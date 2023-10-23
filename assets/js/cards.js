@@ -1,3 +1,5 @@
+//Función para mostrar los productos en HTML a través del DOM
+
 const mostrarProductos = () => {
     const contenedor = document.querySelector("#producto-contenedor");
 
