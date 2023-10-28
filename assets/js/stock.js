@@ -1,3 +1,5 @@
+//STOCK DE PRODUCTOS
+
 const productos = [
  {  id: 1,
     nombre:"Botas Amparo",

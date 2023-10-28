@@ -1,6 +1,4 @@
-/*Estilos modal*/
-
-/* Contenedores */
+/*Estilos para el carrito de compras y modal*/
 .cesta-carrito {
     position: fixed;
     top: 30px;
@@ -24,6 +22,7 @@
     z-index: 5;
 }
 
+/* Estilos contenedor principal del carrito */
 .carrito-contenedor {
     position: relative;
     background-color: #212934;
@@ -39,6 +38,7 @@
     margin-top: 0;
 }
 
+/* Estilos detalles de los productos en el carrito */
 .producto-detalles {
     display: flex;
     flex-direction: row;
@@ -47,25 +47,28 @@
     color:#efefef;
 } 
 
+/*Estilos para textos del modal */
 .carrito-contenedor h3 {
-    color: #0bff7e;
+    color: #59ab6e;
     padding-bottom: 5px;
 }
 
 .producto-nombre p{
-    color: #0bff7e;
+    color: #59ab6e;
     font-size: 25px;
-}
-
-.carrito-producto-imagen {
-    width: 70px;
-    border-radius: 5px;
 }
 
 .carrito-producto small {
     font-size: 15px;
 }
 
+/*Estilos para la imagen del producto en el carrito*/
+.carrito-producto-imagen {
+    width: 70px;
+    border-radius: 5px;
+}
+
+/*Estilos para los botones y acciones del carrito*/
 .boton-eliminar {
     border: 0;
     background-color: transparent;
@@ -81,14 +84,14 @@
 .carrito-total{
     display: flex;
     padding: 5px;
-    color: #0bff7e;
+    color: #59ab6e;
     text-transform: uppercase;
     gap: 5px;
 }
 
 .carrito-comprar{
     border: 0;
-    background-color: #0bff7e;
+    background-color: #59ab6e;
     padding: 5px;
     border-radius: 5px;
     color: #efefef;
@@ -100,8 +103,7 @@
     position: absolute;
     top: 15px;
     right: 15px;
-    font-size: 20px;
-    color: #0bff7e;
+    color: #59ab6e;
     border: none;
     background-color: #212934;
 }
@@ -112,4 +114,73 @@
 
   .carrito-contenedor #btn-cerrar-carrito:focus {
     outline: none;
+}
+
+/* Mobile extra-small*/
+@media (min-width: 412px) {
+    .modal-contenedor {
+        width: 90%;
+        height: 100%;
+    }
+    .producto-nombre p{
+        font-size: 5px;
+    }
+    .carrito-producto small {
+        font-size: 3px;
+    }
+    .carrito-producto-imagen {
+        width: 20px;  
+    }
+}
+
+/* Mobile small*/
+@media (min-width: 576px) {
+    .modal-contenedor {
+        width: 80%;
+        height: 100%;
+    }
+    .producto-nombre p{
+        font-size: 7px;
+    }
+    .carrito-producto small {
+        font-size: 5px;
+    }
+    .carrito-producto-imagen {
+        width: 25px;  
+    }
+}
+  
+/* Medium devices*/
+@media (min-width: 768px) {
+    .modal-contenedor {
+        width: 60%;
+        height: 100%;
+    }
+    .producto-nombre p{
+        font-size: 15px;
+    }
+    .carrito-producto small {
+        font-size: 10px;
+    }
+    .carrito-producto-imagen {
+        width: 35px;  
+    }
+}
+  
+/* Large devices*/
+@media (min-width: 992px) {
+    .modal-contenedor {
+        width: 40%;
+        height: 100%;
+    }
+    .producto-nombre p{
+        font-size: 25px;
+    }
+    .carrito-producto small {
+        font-size: 15px;
+    }
+    .carrito-producto-imagen {
+        width: 70px;
+        border-radius: 5px;  
+    }
 }
